@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts"]
+}
+
+//Continua na aula  feat: insert eslint in project   9a7d389
+//curso do professor julio
+//https://github.com/juliossena/vendas-online-web/commits/
