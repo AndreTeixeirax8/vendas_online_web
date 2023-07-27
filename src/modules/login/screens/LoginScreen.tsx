@@ -1,4 +1,9 @@
 import { useState } from 'react';
+
+import Button from '../../../shared/components/buttons/button/Button';
+import SVGLogo from '../../../shared/components/icons/SVGLogo';
+import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
+import { useRequests } from '../../../shared/hooks/useRequests';
 import {
   BackgroundImage,
   ContainerLogin,
@@ -6,15 +11,10 @@ import {
   LimitedContainer,
   TitleLogin,
 } from '../styles/loginScreen.styles';
-import axios from 'axios';
-
-import SVGLogo from '../../../shared/components/icons/SVGLogo';
-import { useRequests } from '../../../shared/hooks/useRequests';
 import Input from '../../../shared/components/inputs/input/input';
-import Button from '../../../shared/components/buttons/button/Button';
 
 const LoginScreen = () => {
-
+  const { accessToken, setAccessToken } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { postRequest, loading } = useRequests();
@@ -28,7 +28,9 @@ const LoginScreen = () => {
   };
 
   const handleLogin = () => {
-    postRequest('http://localhost:8080/auth', {
+  
+    setAccessToken('novo token');
+    postRequest('http://localhost:3000/auth', {
       email: email,
       password: password,
     });
@@ -36,10 +38,13 @@ const LoginScreen = () => {
 
   return (
     <ContainerLoginScreen>
-    <ContainerLogin>
-      <LimitedContainer>
-      <SVGLogo />
-        <Input title="USUÁRIO" margin="32px 0px 0px" onChange={handleEmail} value={email} />
+      <ContainerLogin>
+        <LimitedContainer>
+          <SVGLogo />
+          <TitleLogin level={2} type="secondary">
+            LOGIN ({accessToken})
+          </TitleLogin>
+          <Input title="USUÁRIO" margin="32px 0px 0px" onChange={handleEmail} value={email} />
           <Input
             type="password"
             title="SENHA"
@@ -47,13 +52,13 @@ const LoginScreen = () => {
             onChange={handlePassword}
             value={password}
           />
-           <Button loading={loading} type="primary" margin="64px 0px 16px 0px" onClick={handleLogin}>
+          <Button loading={loading} type="primary" margin="64px 0px 16px 0px" onClick={handleLogin}>
             ENTRAR
           </Button>
-      </LimitedContainer>
-    </ContainerLogin>
-    <BackgroundImage src="./background.png"/>
-     </ContainerLoginScreen>
+        </LimitedContainer>
+      </ContainerLogin>
+      <BackgroundImage src="./background.png" />
+    </ContainerLoginScreen>
   );
 };
 
