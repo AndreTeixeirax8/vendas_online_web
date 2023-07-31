@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import Button from '../../../shared/components/buttons/button/Button';
 import SVGLogo from '../../../shared/components/icons/SVGLogo';
 import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
@@ -12,6 +11,8 @@ import {
   TitleLogin,
 } from '../styles/loginScreen.styles';
 import Input from '../../../shared/components/inputs/input/input';
+import { UserType } from '../types/UserType';
+
 
 const LoginScreen = () => {
   const { accessToken, setAccessToken } = useGlobalContext();
@@ -27,13 +28,13 @@ const LoginScreen = () => {
     setPassword(event.target.value);
   };
 
-  const handleLogin = () => {
-  
-    setAccessToken('novo token');
-    postRequest('http://localhost:3000/auth', {
+  const handleLogin = async () => {
+    const user = await postRequest<UserType>('http://localhost:3000/auth', {
       email: email,
       password: password,
     });
+
+    setAccessToken(user?.accessToken || '');
   };
 
   return (
